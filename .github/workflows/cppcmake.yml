@@ -113,14 +113,14 @@ jobs:
            fi
     
     # run internal tests, ignore test failures on docker (missing IPv6 connectivity)
-    - name: unit tests (internal functions)
-      run: 'install/bin/lsl_test_internal --order rand --wait-for-keypress never --durations yes || test ! -z "${{ matrix.config.docker }}"'
-      timeout-minutes: 5
+    # - name: unit tests (internal functions)
+    #   run: 'install/bin/lsl_test_internal --order rand --wait-for-keypress never --durations yes || test ! -z "${{ matrix.config.docker }}"'
+    #   timeout-minutes: 5
     
-    - name: unit tests (exported functions)
-      run: install/bin/lsl_test_exported --order rand --wait-for-keypress never --durations yes
-      timeout-minutes: 5
-      if: ${{ success() || failure() }}
+    # - name: unit tests (exported functions)
+    #   run: install/bin/lsl_test_exported --order rand --wait-for-keypress never --durations yes
+    #   timeout-minutes: 5
+    #   if: ${{ success() || failure() }}
     - name: upload to release page
       if: github.event_name == 'release'
       env:
