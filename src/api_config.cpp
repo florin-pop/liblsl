@@ -281,12 +281,17 @@ void api_config::load_from_file(const std::string &filename) {
 
 static std::once_flag api_config_once_flag;
 
-const api_config *api_config::get_instance() {
-	std::call_once(api_config_once_flag, []() { api_config::get_instance_internal(); });
-	return get_instance_internal();
+
+std::shared_ptr<api_config> api_config::instance_ = nullptr;
+
+void api_config::reset_instance() {
+    instance_ = std::make_shared<api_config>();
 }
 
-api_config *api_config::get_instance_internal() {
-	static api_config cfg;
-	return &cfg;
+const api_config *api_config::get_instance() {
+    static std::once_flag once_flag;
+    std::call_once(once_flag, []() {
+        instance_ = std::make_shared<api_config>();
+    });
+    return instance_.get();
 }

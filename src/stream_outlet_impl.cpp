@@ -25,6 +25,7 @@ stream_outlet_impl::stream_outlet_impl(const stream_info_impl &info, int32_t chu
 	  io_ctx_data_(std::make_shared<asio::io_context>(1)),
 	  io_ctx_service_(std::make_shared<asio::io_context>(1)) {
 	ensure_lsl_initialized();
+    api_config::reset_instance();
 	const api_config *cfg = api_config::get_instance();
 
 	// instantiate IPv4 and/or IPv6 stacks (depending on settings)

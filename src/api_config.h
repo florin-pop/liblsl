@@ -27,6 +27,8 @@ class api_config {
 public:
 	///  Get a pointer to this singleton.
 	static const api_config *get_instance();
+    
+    static void reset_instance();
 
 	// === core parameters ===
 
@@ -204,16 +206,16 @@ public:
 
 	/// Deleted assignment operator (noncopyable).
 	api_config &operator=(const api_config &rhs) = delete;
+    
+    /**
+     * Constructor.
+     * Applies default settings and overrides them based on a config file (if present).
+     */
+    api_config();
 
 private:
 	/// Get the api_config singleton after thread-safe initialization if needed
 	static api_config *get_instance_internal();
-
-	/**
-	 * Constructor.
-	 * Applies default settings and overrides them based on a config file (if present).
-	 */
-	api_config();
 
 	/**
 	 * @brief Load a configuration file (or use defaults if a filename is empty).
@@ -257,6 +259,7 @@ private:
 	int socket_receive_buffer_size_;
 	float smoothing_halftime_;
 	bool force_default_timestamps_;
+    static std::shared_ptr<api_config> instance_;
 };
 } // namespace lsl
 
